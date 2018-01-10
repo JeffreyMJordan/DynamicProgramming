@@ -43,6 +43,7 @@ class DynamicProgramming
     cache[2] = [[1,1], [2]]
     cache[3] = [[1,1,1], [1,2], [2,1], [3]]
     (4..n).each do |idx| 
+      #Goes 
       cache[idx] = cache[idx-1].deep_dup.map{|el| el << 1} + cache[idx-2].deep_dup.map{|el| el << 2} + cache[idx-3].deep_dup.map{|el| el << 3}
     end
     cache
@@ -88,7 +89,7 @@ class DynamicProgramming
     ((k+1)..n).each do |idx| 
       arr = []
       (1..k).each do |i| 
-        arr = arr + cache[i].deep_dup.map{|el| el << (idx-i)}
+        arr = arr + cache[idx-i].deep_dup.map{|el| el << (k-(k-i))}
       end 
       cache[idx] = arr
     end 
