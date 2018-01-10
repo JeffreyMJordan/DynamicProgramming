@@ -4,6 +4,7 @@ class DynamicProgramming
   def initialize
     @cache = []
     @blair_cache = {}
+    @frog_cache = {}
   end
 
   def blair_nums(n)
@@ -46,12 +47,17 @@ class DynamicProgramming
     cache
   end
 
-  def frog_hops_top_down(n)
-
+  def frog_hops_top_down(n) 
+    frog_hops_top_down_helper(1)
+    cache = frog_cache_builder(n)
+    cache[n]
   end
 
   def frog_hops_top_down_helper(n)
-
+    # return @frog_cache[n] if @frog_cache[n]
+    # return frog_hops_top_down(n)
+    return if n==0
+    frog_hops_top_down_helper(n-1)
   end
 
   def super_frog_hops(n, k)
