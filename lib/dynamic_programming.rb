@@ -3,16 +3,27 @@ class DynamicProgramming
 
   def initialize
     @cache = []
+    @blair_cache = {}
   end
 
   def blair_nums(n)
     # Base case(s): which inputs n should return early?
     # Recursive case: what's the recursive relationship?
     # *NB*: you'll need to figure out how to express the nth odd number in terms of n.
-    return 1 if n==1 
+    return @blair_cache[n] if @blair_cache[n]
+    return 1 if n==1
     return 2 if n==2
-    blair_nums(n-2) + blair_nums(n-1) + 
+    @blair_cache[n] = blair_nums(n-2) + blair_nums(n-1) + nth_odd(n-1)
+    @blair_cache[n]
   end
+
+  def nth_odd(n)
+    res = 1 
+    (n-1).times do 
+      res += 2 
+    end 
+    res 
+  end 
 
   def frog_hops_bottom_up(n)
 
