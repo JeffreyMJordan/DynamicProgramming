@@ -5,6 +5,7 @@ class DynamicProgramming
     @cache = []
     @blair_cache = {}
     @frog_cache = {}
+    @knap = {}
   end
 
   def blair_nums(n)
@@ -60,15 +61,70 @@ class DynamicProgramming
     frog_hops_top_down_helper(n-1)
   end
 
-  def super_frog_hops(n, k)
 
+  #k is max stairs
+  def super_frog_hops(n, k)
+    cache = super_frog_cache(n, k)
+    cache[n]
   end
 
+  def super_frog_cache(n, k)
+    cache = {}
+    cache[0] = [[]]
+    
+    #Go to the 1-ith thing 
+    #THen we add i to everything contained there 
+    #Do this 
+
+    #base cases
+    (1..k).each do |idx| 
+      arr = []
+      (0..(idx-1)).each do |i| 
+        arr = arr + cache[i].deep_dup.map{|el| el << (idx-i)}
+      end
+      cache[idx] = arr
+    end 
+    
+    ((k+1)..n).each do |idx| 
+      arr = []
+      (1..k).each do |i| 
+        arr = arr + cache[i].deep_dup.map{|el| el << (idx-i)}
+      end 
+      cache[idx] = arr
+    end 
+    
+    cache
+  end 
+
   def knapsack(weights, values, capacity)
+    #Have @Knap cache 
+    return 0 if capacity==0 or weights.empty? 
+    return @knap[capacity] if @knap[capacity]
+    if weights[0] > capacity 
+      return knapsack(weights[1..-1], values[1..-1], capacity)
+    else 
+      excluded = knapsack(weights[1..-1], values[1..-1], capacity)
+      included = knapsack(weights[1..-1], values[1..-1], capacity-weights[0]) + values[0]
+      if excluded>included
+        @knap[capacity] = excluded
+      else 
+        @knap[capacity] = included
+      end 
+    end 
+
+    @knap[capacity]
 
   end
 
   # Helper method for bottom-up implementation
+
+
+  #
+  #Iterate through both the capacity and the items 
+  #Base is no more items 
+  #If capacity is 0, also base 
+
+
   def knapsack_table(weights, values, capacity)
 
   end
